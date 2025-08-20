@@ -8,6 +8,8 @@ interface OCRResult {
   text: string
   confidence?: number
   layout?: any
+  processing_time?: number
+  model_used?: string
 }
 
 export default function Home() {
@@ -213,22 +215,41 @@ export default function Home() {
                   </button>
                 </div>
                 
-                {ocrResult.confidence && (
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-600">信頼度</span>
-                      <span className="text-sm font-medium">
-                        {Math.round(ocrResult.confidence * 100)}%
-                      </span>
+                {/* メタデータ表示 */}
+                <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {ocrResult.confidence && (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm text-gray-600">信頼度</span>
+                        <span className="text-sm font-medium">
+                          {Math.round(ocrResult.confidence * 100)}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${ocrResult.confidence * 100}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-blue-600 h-2 rounded-full"
-                        style={{ width: `${ocrResult.confidence * 100}%` }}
-                      ></div>
+                  )}
+                  
+                  {ocrResult.processing_time && (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm text-gray-600">処理時間</span>
+                        <span className="text-sm font-medium">
+                          {ocrResult.processing_time.toFixed(2)}秒
+                        </span>
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {ocrResult.model_used && (
+                          <>使用モデル: {ocrResult.model_used}</>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto">
                   <pre className="whitespace-pre-wrap text-sm text-gray-800">
