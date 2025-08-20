@@ -73,14 +73,21 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
             try:
                 client = Client(HUGGINGFACE_SPACE_NAME)
                 
-                # 画像をPIL Imageに変換
-                image = Image.open(io.BytesIO(image_data))
+                # 画像を一時ファイルに保存
+                import tempfile
+                with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp_file:
+                    tmp_file.write(image_data)
+                    tmp_image_path = tmp_file.name
                 
                 # API呼び出し
                 result = client.predict(
-                    image,
+                    tmp_image_path,
                     api_name="/predict"
                 )
+                
+                # 一時ファイルを削除
+                import os
+                os.unlink(tmp_image_path)
                 
                 # 結果の正規化
                 if isinstance(result, dict):
