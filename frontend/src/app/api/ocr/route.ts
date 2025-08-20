@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
 }
 
 // CORS対応（必要に応じて）
-export async function OPTIONS(request: NextRequest) {
+export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {

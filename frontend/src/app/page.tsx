@@ -3,11 +3,12 @@
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Upload, FileText, Image as ImageIcon, Download, Loader2 } from 'lucide-react'
+import Image from 'next/image'
 
 interface OCRResult {
   text: string
   confidence?: number
-  layout?: any
+  layout?: unknown
   processing_time?: number
   model_used?: string
 }
@@ -154,10 +155,13 @@ export default function Home() {
                     リセット
                   </button>
                 </div>
-                <img
+                <Image
                   src={imagePreview}
                   alt="アップロードされた画像"
+                  width={800}
+                  height={600}
                   className="max-w-full h-auto rounded-lg shadow-sm"
+                  unoptimized
                 />
                 <div className="mt-4 flex justify-center">
                   <button
