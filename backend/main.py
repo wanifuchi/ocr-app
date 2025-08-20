@@ -71,6 +71,7 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
         # 方法1: gradio_clientを使用（推奨）
         if HUGGINGFACE_SPACE_NAME:
             try:
+                from gradio_client import file
                 client = Client(HUGGINGFACE_SPACE_NAME)
                 
                 # 画像を一時ファイルに保存
@@ -79,9 +80,9 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
                     tmp_file.write(image_data)
                     tmp_image_path = tmp_file.name
                 
-                # API呼び出し
+                # API呼び出し（file()関数を使用）
                 result = client.predict(
-                    tmp_image_path,
+                    file(tmp_image_path),
                     api_name="/predict"
                 )
                 
