@@ -79,7 +79,7 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
                 # API呼び出し
                 result = client.predict(
                     image,
-                    api_name="/ocr_api"
+                    api_name="/predict"
                 )
                 
                 # 結果の正規化
@@ -117,7 +117,7 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
                 
                 async with aiohttp.ClientSession() as session:
                     # Gradio API エンドポイント修正（正しいパス）
-                    api_url = f"{HUGGINGFACE_SPACE_URL.rstrip('/')}/call/ocr_api"
+                    api_url = f"{HUGGINGFACE_SPACE_URL.rstrip('/')}/call/predict"
                     
                     # Gradio API の正しい形式
                     payload = {
