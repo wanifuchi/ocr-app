@@ -116,7 +116,8 @@ async def call_huggingface_space_api(image_data: bytes) -> dict:
                 image_b64 = base64.b64encode(image_data).decode('utf-8')
                 
                 async with aiohttp.ClientSession() as session:
-                    api_url = f"{HUGGINGFACE_SPACE_URL.rstrip('/')}/api/predict"
+                    # Gradio API エンドポイント修正
+                    api_url = f"{HUGGINGFACE_SPACE_URL.rstrip('/')}/call/ocr_api"
                     
                     payload = {
                         "data": [f"data:image/jpeg;base64,{image_b64}"]
