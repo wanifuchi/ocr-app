@@ -55,7 +55,7 @@ export default function Home() {
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await fetch('/api/ocr', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://ocr-app-production-91fe.up.railway.app'}/api/v1/ocr/process`, {
         method: 'POST',
         body: formData
       })
