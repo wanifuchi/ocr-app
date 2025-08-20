@@ -1,13 +1,18 @@
-# デプロイガイド
+# デプロイガイド - dots.ocr完全版
+
+## 🎯 アーキテクチャ概要
+
+```
+Frontend (Vercel) → Railway ($5) → HuggingFace Space → dots.ocr
+```
 
 ## 必要なアカウント設定
 
-### 1. Replicate アカウント設定
+### 1. HuggingFace アカウント設定 🆕
 
-1. [Replicate](https://replicate.com) にアクセス
-2. アカウント作成（GitHub連携推奨）
-3. [API Tokens](https://replicate.com/account/api-tokens) ページでAPIトークンを作成
-4. APIトークンをコピーして保存
+1. [HuggingFace](https://huggingface.co) にアクセス
+2. GitHubアカウントでサインアップ（無料）
+3. HuggingFace Spaces（GPU T4）を利用
 
 ### 2. Railway アカウント設定
 
@@ -27,12 +32,12 @@
 ```bash
 # 現在のディレクトリでGitリポジトリを初期化
 git add .
-git commit -m "feat: 初期プロジェクト作成
+git commit -m "feat: dots.ocr完全統合実装
 
 - Next.jsフロントエンド実装
-- FastAPIバックエンド実装
-- Replicate API統合準備
-- Docker設定
+- FastAPIバックエンド実装  
+- HuggingFace Space統合
+- dots.ocr直接利用対応
 
 🤖 Generated with Claude Code"
 
@@ -41,7 +46,22 @@ git remote add origin https://github.com/yourusername/ocr-app.git
 git push -u origin main
 ```
 
-### Step 2: Railway バックエンドデプロイ
+### Step 2: HuggingFace Space作成 🆕
+
+1. [HuggingFace Spaces](https://huggingface.co/spaces) にアクセス
+2. "Create new Space" をクリック
+3. 設定：
+   - **Space name**: `dots-ocr-space` （任意）
+   - **License**: Apache 2.0
+   - **SDK**: Gradio
+   - **Hardware**: T4 small（無料GPU）
+4. Space作成後、以下ファイルをアップロード：
+   - `huggingface-space/app.py`
+   - `huggingface-space/requirements.txt`  
+   - `huggingface-space/README.md`
+5. デプロイ完了まで待機（約5-10分）
+
+### Step 3: Railway バックエンドデプロイ
 
 1. [Railway Dashboard](https://railway.app/dashboard) にアクセス
 2. "New Project" → "Deploy from GitHub repo"
@@ -49,13 +69,13 @@ git push -u origin main
 4. Root directoryを `/backend` に設定
 5. 環境変数を設定：
    ```
-   REPLICATE_API_TOKEN=your_replicate_token
+   HUGGINGFACE_SPACE_NAME=yourusername/dots-ocr-space
    PORT=8000
    ENVIRONMENT=production
    ```
 6. デプロイ完了後、生成されたURLをコピー
 
-### Step 3: Vercel フロントエンドデプロイ
+### Step 4: Vercel フロントエンドデプロイ
 
 1. [Vercel Dashboard](https://vercel.com/dashboard) にアクセス
 2. "New Project" → GitHubリポジトリを選択
